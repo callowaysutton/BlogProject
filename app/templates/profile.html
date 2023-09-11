@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <h2>{{ user.username }}</h2>
+        <hr>
+        <p>Joined: {{ user.date_registered }}</p>
+    </div>
+</div>
+{% endblock %}

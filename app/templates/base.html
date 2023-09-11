@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Calloway's Blog{% endblock %}</title>
+    <!-- Include your CSS and JS links here -->
+    <link rel="stylesheet" href="https://unpkg.com/chota@latest">
+    <style>
+        body.dark {
+            --bg-color: #000;
+            --bg-secondary-color: #131316;
+            --font-color: #f5f5f5;
+            --color-grey: #ccc;
+            --color-darkGrey: #777;
+            background-image: url("https://cdn.wallpapersafari.com/2/74/3Iqw2l.gif");
+        }
+    </style>
+</head>
+<body id="top" class="dark">
+    <nav class="nav">
+        <div class="nav-right">
+            <a href="/">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+        </div>
+
+        <div class="nav-center">
+            <a href="/" class="brand">Calloway's Blog</a>
+        </div>
+
+        {% if current_user.is_authenticated %}
+        <div class="nav-left">
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+        {% else %}
+        <div class="nav-left">
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+        </div>
+        {% endif %}
+    </nav>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="card">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <main class="is-full-screen">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    <!-- Include your JavaScript at the end of the body if needed -->
+</body>
+
+<footer class="text-center">
+    <a href="#top">🔝 Back to top</a> • <a href="mailto:me@callowaysutton.com">🐛 Report an issue</a> • <a href="https://github.com/callowaysutton" target="_blank">🎗 Github</a>
+    <p>If you're new, don't forget to <a href="{{ url_for('register') }}" class="primary">register</a>!</p>
+</footer>
+</html>
