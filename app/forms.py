@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
+from flask import flash
 from app.models import User
 
 class RegistrationForm(FlaskForm):
@@ -14,6 +15,7 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
+            flash('Username is taken!', 'danger')
             raise ValidationError('That username is taken. Please choose a different one.')
 
 class LoginForm(FlaskForm):

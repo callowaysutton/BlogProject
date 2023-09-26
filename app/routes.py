@@ -20,6 +20,11 @@ def register():
         return redirect(url_for('home'))
     
     form = RegistrationForm()
+    # Passwords do not match...
+    if (form.password.data != form.confirm_password.data):
+        flash('Your passwords did not match!', 'danger')
+        return redirect(url_for('register'))
+    
     if form.validate_on_submit():
         # Hash the user's password and create a new User instance
         hashed_password = generate_password_hash(form.password.data, method='sha256')
@@ -34,8 +39,10 @@ def register():
         except Exception as e:
             db.session.rollback()  # Rollback changes in case of an error
             flash('An error occurred while creating your account. Please try again later.', 'danger')
+            return redirect(url_for('register'))
             print(e)  # Print the error for debugging
-    flash('Username taken or passwords did not match!', 'danger')
+    # else:
+    #     flash('Username taken or passwords did not match!', 'danger')
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -48,6 +55,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
 
+
         # Check if the user exists and the password is correct
         if user and check_password_hash(user.password, form.password.data):
             # Set the user session
@@ -56,7 +64,6 @@ def login():
             # You can implement a session-based login system here if needed
             return redirect(url_for('home'))
         else:
-            print("Login fail!")
             flash('Login unsuccessful. Please check your username and password.', 'danger')
 
     return render_template('login.html', title='Login', form=form)

@@ -11,15 +11,32 @@
             --font-color: #f5f5f5;
             --color-grey: #ccc;
             --color-darkGrey: #777;
-            background-image: url("https://cdn.wallpapersafari.com/2/74/3Iqw2l.gif");
+            /* background-image: url("https://i.gifer.com/NEn0.gif"); */
+
+            margin: 25px;
+        }
+
+        .nav-item {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            
+        }
+
+        .container {
+            /* background-color: var(--bg-secondary-color); */
+        }
+
+        .card {
+            /* background-image: url("https://fidelion.io/metadata/1.gif"); */
+            border-radius: 32px;
         }
     </style>
 </head>
 <body id="top" class="dark">
     <nav class="nav">
         <div class="nav-right">
-            <a href="/">Home</a>
-            <a href="{{ url_for('about') }}">About</a>
+            <div class="nav-item"><a href="/" class="button dark outline">Home</a></div>
+            <div class="nav-item"><a href="{{ url_for('about') }}" class="button dark outline">About</a></div>
         </div>
 
         <div class="nav-center">
@@ -28,8 +45,18 @@
 
         {% if current_user.is_authenticated %}
         <div class="nav-left">
-            <a href="{{ url_for('profile') }}">Profile</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
+            <div class="nav-item">
+                <details class="dropdown">
+                    <summary class="button outline">My Profile</summary>
+                    <div class="card">
+                        <p><a href="{{ url_for('profile') }}">Profile</a></p>
+                        <!-- <p><a href="#">Alerts&nbsp;<span class="tag">3</span></a></p> -->
+                        <hr>
+                        <p><a href="{{ url_for('logout') }}" class="text-error">Logout</a></p>
+                    </div>
+                </details>
+            </div>
+            <!-- <p><a href="{{ url_for('logout') }}">Logout</a></p> -->
         </div>
         {% else %}
         <div class="nav-left">
